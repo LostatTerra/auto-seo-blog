@@ -28,7 +28,8 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           source venv/bin/activate
-          python ./auto_post_generator.py
+          python ./auto-seo-blog/auto_post_generator.py
+
 
       - name: Commit and push new post
         run: |
