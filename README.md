@@ -1,1 +1,1 @@
-# auto-seo-blog
+# Ivan’s SEO Blog
