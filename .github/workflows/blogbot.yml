@@ -1,0 +1,39 @@
+name: Blog AutoPublisher
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * *'  # Runs every day at 15:00 UTC (8AM PST)
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install openai python-dotenv
+
+      - name: Generate Blog Post
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          source venv/bin/activate
+          python auto_post_generator.py
+
+      - name: Commit and push new post
+        run: |
+          git config --global user.name "AutoPosterBot"
+          git config --global user.email "autobot@example.com"
+          git add posts/
+          git commit -m "Auto: Added blog post on $(date +'%Y-%m-%d')" || echo "Nothing to commit"
+          git push
