@@ -1,6 +1,7 @@
 import openai
 from datetime import datetime
 import os
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Replace keywords in blog with affiliate links
 def inject_affiliate_links(text):
